@@ -1,0 +1,58 @@
+{
+  "private": true,
+  "scripts": {
+    "postinstall": "install-app-deps",
+    "start": "npm install && npm run compile && electron ./app",
+    "test": "xo && mocha",
+    "compile": "rimraf app/out",
+    "pack": "npm run compile && build --dir",
+    "dist": "npm run compile && build"
+  },
+  "build": {
+    "appId": "xyz.meadowcottage.Playcode-desktop",
+    "category": "public.app-category.developer-tools",
+    "productName": "Playcode",
+    "dmg": {
+      "contents": [
+        {
+          "x": 410,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 150,
+          "type": "file"
+        }
+      ]
+    }
+  },
+  "devDependencies": {
+    "electron": "^1.4.10",
+    "electron-builder": "^10.3.0",
+    "mocha": "^3.2.0",
+    "rimraf": "^2.5.4",
+    "spectron": "^3.4.0",
+    "xo": "^0.17.1"
+  },
+  "xo": {
+    "envs": [
+      "node",
+      "mocha"
+    ],
+    "esnext": true,
+    "semicolon": false,
+    "space": 4
+  },
+  "packageIgnore": [
+    "LICENSE.md",
+    "README.md",
+    ".DS_Store",
+    ".travis.yml",
+    "appveyor.yml",
+    "test",
+    "dist",
+    "build/Screenshot.png"
+  ]
+}
