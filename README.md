@@ -4,7 +4,7 @@
 # Playcode
 > Desktop client for Playcode Online Javascript Editor
 
-[![License](https://img.shields.io/badge/License-GPL-red.svg?style=flat-square)](https://github.com/Meadowcottage/Playcode-desktop/blob/master/LICENSE.md) [XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg?style=flat-square)](https://github.com/sindresorhus/xo) [![Travis](https://img.shields.io/travis/Meadowcottage/Playcode-desktop/master.svg?style=flat-square)](https://travis-ci.org/Meadowcottage/Playcode-desktop) [![Release](https://img.shields.io/github/release/Meadowcottage/Playcode-desktop.svg?style=flat-square)](https://github.com/Meadowcottage/Playcode-desktop/releases) [![Downloads](https://img.shields.io/github/downloads/Meadowcottage/Playcode-desktop/total.svg?style=flat-square)](https://github.com/Meadowcottage/Playcode-desktop/releases)
+[![License](https://img.shields.io/badge/License-GPL-red.svg?style=flat-square)](https://github.com/Meadowcottage/Playcode-desktop/blob/master/LICENSE.md) [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg?style=flat-square)](https://github.com/sindresorhus/xo) [![Travis](https://img.shields.io/travis/Meadowcottage/Playcode-desktop/master.svg?style=flat-square)](https://travis-ci.org/Meadowcottage/Playcode-desktop) [![Release](https://img.shields.io/github/release/Meadowcottage/Playcode-desktop.svg?style=flat-square)](https://github.com/Meadowcottage/Playcode-desktop/releases) [![Downloads](https://img.shields.io/github/downloads/Meadowcottage/Playcode-desktop/total.svg?style=flat-square)](https://github.com/Meadowcottage/Playcode-desktop/releases)
 
 </br>
 </br>
