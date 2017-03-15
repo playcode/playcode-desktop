@@ -32,11 +32,14 @@ function createMainWindow() {
         y: lastWindowState.y,
         width: lastWindowState.width,
         height: lastWindowState.height,
+        backgroundColor: '#2e2c29',
         titleBarStyle: 'hidden-inset',
+        // transparent: true,
+        // frame: false,
         center: true,
         movable: true,
         resizable: true,
-        fullscreenable: false,
+        fullscreenable: true,
         autoHideMenuBar: true
     })
     appView.loadURL('https://playcode.io')
@@ -52,6 +55,15 @@ function createMainWindow() {
             }
         }
     })
+
+    appView.on('enter-full-screen', () => {
+      appView.webContents.executeJavaScript("document.dispatchEvent( new Event('electronEnteredFullscreen') );")
+    })
+
+    appView.on('leave-full-screen', () => {
+      appView.webContents.executeJavaScript("document.dispatchEvent( new Event('electronLeavedFullscreen') );")
+    })
+
     return appView
 }
 
