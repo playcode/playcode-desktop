@@ -9,9 +9,9 @@
     "dist": "npm run compile && build"
   },
   "build": {
-    "appId": "xyz.meadowcottage.Playcode-desktop",
+    "appId": "xyz.playcode.Playcode",
     "category": "public.app-category.developer-tools",
-    "productName": "Playcode",
+    "productName": "PlayCode",
     "dmg": {
       "contents": [
         {

@@ -42,7 +42,8 @@ function createMainWindow() {
         fullscreenable: true,
         autoHideMenuBar: true
     })
-    appView.loadURL('https://playcode.io')
+    // appView.loadURL('https://playcode.io')
+    appView.loadURL('http://localhost:5001')
 
     // When window is closed, hide window
     appView.on('close', e => {
@@ -56,12 +57,14 @@ function createMainWindow() {
         }
     })
 
+    // Enter fullscreen Playcode fullscreen method execution
     appView.on('enter-full-screen', () => {
-      appView.webContents.executeJavaScript("document.dispatchEvent( new Event('electronEnteredFullscreen') );")
+        appView.webContents.executeJavaScript('document.dispatchEvent( new Event("electronEnteredFullscreen") );')
     })
 
+    // Exit fullscreen Playcode fullscreen method execution
     appView.on('leave-full-screen', () => {
-      appView.webContents.executeJavaScript("document.dispatchEvent( new Event('electronLeavedFullscreen') );")
+        appView.webContents.executeJavaScript('document.dispatchEvent( new Event("electronLeavedFullscreen") );')
     })
 
     return appView

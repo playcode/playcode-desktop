@@ -1,15 +1,15 @@
 {
-    "name": "Playcode-desktop",
-    "productName": "Playcode",
-    "version": "1.0.1",
+    "name": "PlayCode-Desktop",
+    "productName": "PlayCode",
+    "version": "1.0.2",
     "description": "Desktop client for Playcode Online Javascript Editor",
-    "private": true,
+    "private": false,
     "main": "main.js",
     "author": {
-        "name": "Meadowcottage"
+        "name": "playcode"
     },
     "license": "GNU General Public License",
-    "homepage": "https://github.com/Meadowcottage/Playcode-desktop/",
+    "homepage": "https://github.com/playcode/playcode-desktop/",
     "keywords": [
         "Electron",
         "Playcode",
@@ -17,11 +17,11 @@
         "Developer Tools"
     ],
     "bugs": {
-        "url": "https://github.com/Meadowcottage/Playcode-desktop/issues/"
+        "url": "https://github.com/playcode/playcode-desktop/issues/"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/Meadowcottage/Playcode-desktop.git"
+        "url": "https://github.com/playcode/playcode-desktop.git"
     },
     "dependencies": {
         "electron-config": "^0.2.1",
