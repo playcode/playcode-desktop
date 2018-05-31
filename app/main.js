@@ -42,8 +42,8 @@ function createMainWindow() {
         fullscreenable: true,
         autoHideMenuBar: true
     })
-    // appView.loadURL('https://playcode.io')
-    appView.loadURL('http://localhost:5001')
+    appView.loadURL('http://playcode.io')
+    // appView.loadURL('http://localhost:5001')
 
     // When window is closed, hide window
     appView.on('close', e => {
