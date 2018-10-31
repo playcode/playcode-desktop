@@ -1,7 +1,7 @@
 {
-    "name": "PlayCode-Desktop",
+    "name": "playcode",
     "productName": "PlayCode",
-    "version": "1.0.3",
+    "version": "1.7.4",
     "description": "Desktop client for Playcode Online Javascript Editor",
     "private": false,
     "main": "main.js",
@@ -11,6 +11,7 @@
     "license": "GNU General Public License",
     "homepage": "https://github.com/playcode/playcode-desktop/",
     "keywords": [
+        "Online javascript editor",
         "Electron",
         "Playcode",
         "Desktop Client",

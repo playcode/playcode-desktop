@@ -25,123 +25,135 @@ let isQuitting = false
 
 // Main Window
 function createMainWindow() {
-    const lastWindowState = appConfig.get('lastWindowState')
-    const appView = new electron.BrowserWindow({
-        title: appTitle,
-        x: lastWindowState.x,
-        y: lastWindowState.y,
-        width: lastWindowState.width,
-        height: lastWindowState.height,
-        backgroundColor: '#2b2b2b',
-        titleBarStyle: 'hidden-inset',
-        transparent: false,
-        // frame: false,
-        center: true,
-        movable: true,
-        resizable: true,
-        fullscreenable: true,
-        autoHideMenuBar: true,
-    })
-    appView.loadURL('https://playcode.io')
-    // appView.loadURL('http://localhost:5001')
 
-    // When window is closed, hide window
-    appView.on('close', e => {
-        if (!isQuitting) {
-            e.preventDefault()
-            if (process.platform === 'darwin') {
-                app.hide()
-            } else {
-                app.quit()
-            }
-        }
-    })
+  const lastWindowState = appConfig.get('lastWindowState')
+  const appView = new electron.BrowserWindow({
+    title: appTitle,
+    x: lastWindowState.x,
+    y: lastWindowState.y,
+    width: lastWindowState.width,
+    height: lastWindowState.height,
+    backgroundColor: '#2b2b2b',
+    titleBarStyle: 'hidden-inset',
+    //transparent: false,
+    // frame: false,
+    center: true,
+    movable: true,
+    resizable: true,
+    fullscreenable: true,
+    autoHideMenuBar: true,
+  })
+  appView.loadURL('https://playcode.io')
+  // appView.loadURL('http://localhost:5001')
 
-    // Enter fullscreen Playcode fullscreen method execution
-    appView.on('enter-full-screen', () => {
-        appView.webContents.executeJavaScript('document.dispatchEvent( new Event("electronEnteredFullscreen") );')
-    })
+  // When window is closed, hide window
+  appView.on('close', e => {
+    if ( !isQuitting ) {
+      e.preventDefault()
+      if ( process.platform === 'darwin' ) {
+        app.hide()
+      } else {
+        app.quit()
+      }
+    }
+  })
 
-    // Exit fullscreen Playcode fullscreen method execution
-    appView.on('leave-full-screen', () => {
-        appView.webContents.executeJavaScript('document.dispatchEvent( new Event("electronLeavedFullscreen") );')
-    })
+  // Enter fullscreen Playcode fullscreen method execution
+  appView.on('enter-full-screen', () => {
+    appView.webContents.executeJavaScript('document.dispatchEvent( new Event("electronEnteredFullscreen") );')
+  })
 
-    return appView
+  // Exit fullscreen Playcode fullscreen method execution
+  appView.on('leave-full-screen', () => {
+    appView.webContents.executeJavaScript('document.dispatchEvent( new Event("electronLeavedFullscreen") );')
+  })
+
+  return appView
 }
 
 app.on('ready', () => {
-    mainWindow = createMainWindow()
+  const version = app.getVersion()
 
-    // Setting App menu
-    menu.setApplicationMenu(require('./lib/menu.js'))
+  mainWindow = createMainWindow()
 
-    // If running in developer environment = Open developer tools
-    if (appIsDev) {
-        mainWindow.openDevTools()
+  // Setting App menu
+  menu.setApplicationMenu(require('./lib/menu.js'))
+
+  // If running in developer environment = Open developer tools
+  if ( appIsDev ) {
+    mainWindow.openDevTools()
+  }
+
+  const appPage = mainWindow.webContents
+
+  appPage.on('dom-ready', () => {
+
+    // Global Style Additions
+    appPage.insertCSS(fs.readFileSync(path.join(__dirname, 'app.css'), 'utf8'))
+
+    // MacOS ONLY style fixes
+    if ( process.platform === 'darwin' ) {
+      appPage.insertCSS('')
     }
 
-    const appPage = mainWindow.webContents
+    // Added app version to global code
+    appPage.executeJavaScript(`window.electronAppVersion = '${version}';`)
 
-    appPage.on('dom-ready', () => {
-        // Global Style Additions
-        appPage.insertCSS(fs.readFileSync(path.join(__dirname, 'app.css'), 'utf8'))
+    // Global Code Additions
+    appPage.executeJavaScript(fs.readFileSync(path.join(__dirname, 'renderer.js'), 'utf8'))
 
-        // MacOS ONLY style fixes
-        if (process.platform === 'darwin') {
-            appPage.insertCSS('')
-        }
+    // Show the Main Window
+    mainWindow.show()
 
-        // Global Code Additions
-        appPage.executeJavaScript(fs.readFileSync(path.join(__dirname, 'renderer.js'), 'utf8'))
-
-        // Show the Main Window
-        mainWindow.show()
-
-        // Open external links in browser
-        appPage.on('new-window', (e, url) => {
-            e.preventDefault()
-            electron.shell.openExternal(url)
-        })
-
-        // Shortcut to reload the page.
-        // globalShortcut.register('CmdOrCtrl+R', (item, focusedWindow) => {
-        //     if (focusedWindow) {
-        //         mainWindow.webContents.reload()
-        //     }
-        // })
-        // Shortcut to go back a page.
-        globalShortcut.register('Command+Left', (item, focusedWindow) => {
-            if (focusedWindow && focusedWindow.webContents.canGoBack()) {
-                focusedWindow.webContents.goBack()
-                focusedWindow.webContents.reload()
-            }
-        })
-
-        // Navigate the window back when the user hits their mouse back button
-        mainWindow.on('app-command', (e, cmd) => {
-            if (cmd === 'browser-backward' && mainWindow.webContents.canGoBack()) {
-                mainWindow.webContents.goBack()
-            }
-        })
+    // Open external links in browser
+    appPage.on('new-window', ( e, url ) => {
+      e.preventDefault()
+      electron.shell.openExternal(url)
     })
+
+    // Shortcut to reload the page.
+    // globalShortcut.register('CmdOrCtrl+R', (item, focusedWindow) => {
+    //     if (focusedWindow) {
+    //         mainWindow.webContents.reload()
+    //     }
+    // })
+    // Shortcut to go back a page.
+    // globalShortcut.register('Command+Left', ( item, focusedWindow ) => {
+    //   if ( focusedWindow && focusedWindow.webContents.canGoBack() ) {
+    //     focusedWindow.webContents.goBack()
+    //     focusedWindow.webContents.reload()
+    //   }
+    // })
+
+    // Navigate the window back when the user hits their mouse back button
+    mainWindow.on('app-command', ( e, cmd ) => {
+      if ( cmd === 'browser-backward' && mainWindow.webContents.canGoBack() ) {
+        mainWindow.webContents.goBack()
+      }
+    })
+  })
 })
 
 app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-        app.quit()
-    }
+  if ( process.platform !== 'darwin' ) {
+    app.quit()
+  }
 })
 
 app.on('activate', () => {
-    mainWindow.show()
+  mainWindow.show()
 })
 
 app.on('before-quit', () => {
-    isQuitting = true
+  isQuitting = true
 
-    // Saves the current window position and window size to the config file.
-    if (!mainWindow.isFullScreen()) {
-        appConfig.set('lastWindowState', mainWindow.getBounds())
-    }
+  // Saves the current window position and window size to the config file.
+  if ( !mainWindow.isFullScreen() ) {
+    appConfig.set('lastWindowState', mainWindow.getBounds())
+  }
+})
+
+app.on('will-quit', () => {
+  // Unregister all shortcuts.
+  globalShortcut.unregisterAll()
 })
