@@ -32,17 +32,17 @@ function createMainWindow() {
         y: lastWindowState.y,
         width: lastWindowState.width,
         height: lastWindowState.height,
-        backgroundColor: '#2e2c29',
+        backgroundColor: '#2b2b2b',
         titleBarStyle: 'hidden-inset',
-        // transparent: true,
+        transparent: false,
         // frame: false,
         center: true,
         movable: true,
         resizable: true,
         fullscreenable: true,
-        autoHideMenuBar: true
+        autoHideMenuBar: true,
     })
-    appView.loadURL('http://playcode.io')
+    appView.loadURL('https://playcode.io')
     // appView.loadURL('http://localhost:5001')
 
     // When window is closed, hide window
@@ -105,11 +105,11 @@ app.on('ready', () => {
         })
 
         // Shortcut to reload the page.
-        globalShortcut.register('CmdOrCtrl+R', (item, focusedWindow) => {
-            if (focusedWindow) {
-                mainWindow.webContents.reload()
-            }
-        })
+        // globalShortcut.register('CmdOrCtrl+R', (item, focusedWindow) => {
+        //     if (focusedWindow) {
+        //         mainWindow.webContents.reload()
+        //     }
+        // })
         // Shortcut to go back a page.
         globalShortcut.register('Command+Left', (item, focusedWindow) => {
             if (focusedWindow && focusedWindow.webContents.canGoBack()) {
