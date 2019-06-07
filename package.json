@@ -10,8 +10,12 @@
   },
   "build": {
     "appId": "xyz.playcode.Playcode",
-    "category": "public.app-category.developer-tools",
     "productName": "PlayCode",
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "target": "dmg",
+      "darkModeSupport": true
+    },
     "dmg": {
       "contents": [
         {
