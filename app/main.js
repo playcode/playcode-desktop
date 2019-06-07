@@ -34,8 +34,8 @@ function createMainWindow() {
     width: lastWindowState.width,
     height: lastWindowState.height,
     backgroundColor: '#2b2b2b',
-    titleBarStyle: 'hidden-inset',
-    //transparent: false,
+    titleBarStyle: 'hiddenInset',
+    transparent: true,
     // frame: false,
     center: true,
     movable: true,
@@ -43,8 +43,11 @@ function createMainWindow() {
     fullscreenable: true,
     autoHideMenuBar: true,
   })
-  appView.loadURL('https://playcode.io')
-  // appView.loadURL('http://localhost:5001')
+  if ( appIsDev ) {
+    appView.loadURL('http://localhost:7070')
+  } else {
+    appView.loadURL('https://playcode.io')
+  }
 
   // When window is closed, hide window
   appView.on('close', e => {
@@ -86,7 +89,13 @@ app.on('ready', () => {
 
   const appPage = mainWindow.webContents
 
+
   appPage.on('dom-ready', () => {
+
+    console.log('Updated')
+
+    // Make SetVersion event
+    appPage.executeJavaScript(`document.dispatchEvent( new CustomEvent('setElectronVersion', {detail: {version: '${version}'}}) );`)
 
     // Global Style Additions
     appPage.insertCSS(fs.readFileSync(path.join(__dirname, 'app.css'), 'utf8'))
@@ -96,9 +105,6 @@ app.on('ready', () => {
       appPage.insertCSS('')
     }
 
-    // Added app version to global code
-    appPage.executeJavaScript(`window.electronAppVersion = '${version}';`)
-
     // Global Code Additions
     appPage.executeJavaScript(fs.readFileSync(path.join(__dirname, 'renderer.js'), 'utf8'))
 
@@ -106,9 +112,23 @@ app.on('ready', () => {
     mainWindow.show()
 
     // Open external links in browser
-    appPage.on('new-window', ( e, url ) => {
-      e.preventDefault()
-      electron.shell.openExternal(url)
+    appPage.on('new-window', ( event, url ) => {
+
+      const hostname = (new URL(url)).hostname.toLowerCase();
+      if (hostname.indexOf('accounts.google.com') !== -1) {
+        // this should allow open window
+        event.preventDefault();
+
+        const win = new electron.BrowserWindow({show: false})
+        win.once('ready-to-show', () => win.show())
+        win.loadURL(url)
+        event.newGuest = win
+
+      } else {
+        event.preventDefault();
+        electron.shell.openExternal(url)
+      }
+
     })
 
     // Shortcut to reload the page.

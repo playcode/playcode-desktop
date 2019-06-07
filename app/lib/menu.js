@@ -214,7 +214,7 @@ const templateOSX = [{
     submenu: [{
         label: 'About ' + appName,
         click() {
-            require('electron').shell.openExternal('https://github.com/Meadowcottage/Playcode/releases/tag/' + appVersion)
+            require('electron').shell.openExternal('https://github.com/playcode/playcode-desktop/releases/tag/' + appVersion)
         }
     }, {
         label: 'Version ' + appVersion,
@@ -231,7 +231,7 @@ const templateOSX = [{
     }, {
         label: 'Changelog',
         click() {
-            require('electron').shell.openExternal('https://github.com/Meadowcottage/Playcode/releases/tag/' + appVersion)
+            require('electron').shell.openExternal('https://github.com/playcode/playcode-desktop/releases/tag/' + appVersion)
         }
     }]
 }]

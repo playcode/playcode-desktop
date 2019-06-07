@@ -29,11 +29,11 @@
     }
   },
   "devDependencies": {
-    "electron": "^1.8.8",
-    "electron-builder": "^10.3.0",
-    "mocha": "^3.2.0",
-    "rimraf": "^2.5.4",
-    "spectron": "^3.4.0",
+    "electron": "^5.0.2",
+    "electron-builder": "^20.43.0",
+    "mocha": "^3.5.3",
+    "rimraf": "^2.6.3",
+    "spectron": "^3.8.0",
     "xo": "^0.17.1"
   },
   "xo": {
