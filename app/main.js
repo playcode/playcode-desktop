@@ -60,6 +60,7 @@ function createMainWindow() {
       }
     }
   })
+  
 
   // Enter fullscreen Playcode fullscreen method execution
   appView.on('enter-full-screen', () => {
