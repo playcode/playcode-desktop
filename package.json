@@ -42,8 +42,8 @@
     }
   },
   "devDependencies": {
-    "electron": "^8.2.3",
-    "electron-builder": "^22.5.1",
+    "electron": "^18.1.0",
+    "electron-builder": "^23.0.3",
     "mocha": "^3.5.3",
     "rimraf": "^2.6.3",
     "spectron": "^3.8.0",

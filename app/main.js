@@ -4,6 +4,7 @@ const fs = require('fs')
 
 // Electron
 const electron = require('electron')
+const {ipcMain} = require('electron')
 
 const globalShortcut = electron.globalShortcut
 const menu = electron.Menu
@@ -33,34 +34,61 @@ function createMainWindow() {
     y: lastWindowState.y,
     width: lastWindowState.width,
     height: lastWindowState.height,
-    backgroundColor: '#2b2b2b',
-    titleBarStyle: 'hiddenInset',
+    backgroundColor: '#213040',
+    // titleBarStyle: 'hidden',
     transparent: true,
-    // frame: false,
+    frame: false,
     center: true,
     movable: true,
     resizable: true,
     fullscreenable: true,
-    autoHideMenuBar: true,
+    // autoHideMenuBar: true,
+
+    webPreferences: {
+      nodeIntegration: true,
+      enableRemoteModule: true,
+      contextIsolation: false
+    }
   })
-  if ( appIsDev ) {
-    appView.loadURL('http://localhost:7070')
+  if (appIsDev) {
+    appView.loadURL('http://localhost:7070/new')
   } else {
-    appView.loadURL('https://playcode.io')
+    appView.loadURL('https://playcode.io/new')
   }
 
   // When window is closed, hide window
   appView.on('close', e => {
-    if ( !isQuitting ) {
+    if (!isQuitting) {
       e.preventDefault()
-      if ( process.platform === 'darwin' ) {
+      if (process.platform === 'darwin') {
         app.hide()
       } else {
         app.quit()
       }
     }
   })
-  
+
+  ipcMain.handle('minimize', (event, arg) => {
+    app.hide()
+  })
+
+  ipcMain.handle('close', (event, arg) => {
+    if (!isQuitting) {
+      if (process.platform === 'darwin') {
+        app.hide()
+      } else {
+        app.quit()
+      }
+    }
+  })
+
+  ipcMain.handle('maximize', (event, arg) => {
+    if (mainWindow) {
+      // mainWindow.maximize()
+      mainWindow.setFullScreen(!mainWindow.isFullScreen())
+    }
+  })
+
 
   // Enter fullscreen Playcode fullscreen method execution
   appView.on('enter-full-screen', () => {
@@ -84,7 +112,7 @@ app.on('ready', () => {
   menu.setApplicationMenu(require('./lib/menu.js'))
 
   // If running in developer environment = Open developer tools
-  if ( appIsDev ) {
+  if (appIsDev) {
     mainWindow.openDevTools()
   }
 
@@ -93,7 +121,7 @@ app.on('ready', () => {
 
   appPage.on('dom-ready', () => {
 
-    console.log('Updated')
+    // console.log('Updated')
 
     // Make SetVersion event
     appPage.executeJavaScript(`document.dispatchEvent( new CustomEvent('setElectronVersion', {detail: {version: '${version}'}}) );`)
@@ -102,7 +130,7 @@ app.on('ready', () => {
     appPage.insertCSS(fs.readFileSync(path.join(__dirname, 'app.css'), 'utf8'))
 
     // MacOS ONLY style fixes
-    if ( process.platform === 'darwin' ) {
+    if (process.platform === 'darwin') {
       appPage.insertCSS('')
     }
 
@@ -113,20 +141,26 @@ app.on('ready', () => {
     mainWindow.show()
 
     // Open external links in browser
-    appPage.on('new-window', ( event, url ) => {
+    appPage.on('new-window', (event, url) => {
 
-      const hostname = (new URL(url)).hostname.toLowerCase();
-      if (hostname.indexOf('accounts.google.com') !== -1) {
+      const hostname = (new URL(url)).hostname.toLowerCase()
+      const isPreview = hostname.startsWith('preview-')
+
+      if (hostname.indexOf('accounts.google.com') !== -1 || isPreview) {
         // this should allow open window
-        event.preventDefault();
+        event.preventDefault()
 
         const win = new electron.BrowserWindow({show: false})
         win.once('ready-to-show', () => win.show())
         win.loadURL(url)
         event.newGuest = win
 
+        if (isPreview) {
+          win.webContents.openDevTools();
+        }
+
       } else {
-        event.preventDefault();
+        event.preventDefault()
         electron.shell.openExternal(url)
       }
 
@@ -147,8 +181,8 @@ app.on('ready', () => {
     // })
 
     // Navigate the window back when the user hits their mouse back button
-    mainWindow.on('app-command', ( e, cmd ) => {
-      if ( cmd === 'browser-backward' && mainWindow.webContents.canGoBack() ) {
+    mainWindow.on('app-command', (e, cmd) => {
+      if (cmd === 'browser-backward' && mainWindow.webContents.canGoBack()) {
         mainWindow.webContents.goBack()
       }
     })
@@ -156,7 +190,7 @@ app.on('ready', () => {
 })
 
 app.on('window-all-closed', () => {
-  if ( process.platform !== 'darwin' ) {
+  if (process.platform !== 'darwin') {
     app.quit()
   }
 })
@@ -169,7 +203,7 @@ app.on('before-quit', () => {
   isQuitting = true
 
   // Saves the current window position and window size to the config file.
-  if ( !mainWindow.isFullScreen() ) {
+  if (!mainWindow.isFullScreen()) {
     appConfig.set('lastWindowState', mainWindow.getBounds())
   }
 })

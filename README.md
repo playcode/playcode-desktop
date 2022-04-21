@@ -4,13 +4,6 @@
 # Playcode
 > Desktop client for Playcode Online Javascript Editor
 
-</br>
-</br>
-
-## Screenshots
-
-[<img alt='Playcode' src="https://github.com/playcode/playcode-desktop/blob/master/build/Screenshot.png?raw=true">](https://github.com/playcode/playcode/releases)
-
 ## Development
 
 ```
