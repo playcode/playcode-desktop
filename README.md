@@ -2,7 +2,7 @@
 <img align="left" width="0" height="192px" hspace="10"/>
 
 # Playcode
-> Desktop client for Playcode Online Javascript Editor
+> Desktop client for PLAYCODE Online Javascript Editor
 
 ## Development
 

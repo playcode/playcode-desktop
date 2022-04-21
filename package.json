@@ -9,8 +9,8 @@
     "dist": "npm run compile && electron-builder"
   },
   "build": {
-    "appId": "xyz.playcode.Playcode",
-    "productName": "PlayCode",
+    "appId": "xyz.playcode.PLAYCODE",
+    "productName": "PLAYCODE",
     "mac": {
       "category": "public.app-category.developer-tools",
       "target": "dmg",
