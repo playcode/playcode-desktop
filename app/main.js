@@ -47,7 +47,8 @@ function createMainWindow() {
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
-      contextIsolation: false
+      contextIsolation: false,
+      // nativeWindowOpen: true
     }
   })
   if (appIsDev) {
@@ -144,13 +145,17 @@ app.on('ready', () => {
     appPage.on('new-window', (event, url) => {
 
       const hostname = (new URL(url)).hostname.toLowerCase()
+      if (hostname.indexOf('accounts.google.com') !== -1) return
+      
       const isPreview = hostname.startsWith('preview-')
-
-      if (hostname.indexOf('accounts.google.com') !== -1 || isPreview) {
+      
+      if (isPreview) {
         // this should allow open window
         event.preventDefault()
 
-        const win = new electron.BrowserWindow({show: false})
+        const win = new electron.BrowserWindow({
+          show: false,
+        })
         win.once('ready-to-show', () => win.show())
         win.loadURL(url)
         event.newGuest = win
