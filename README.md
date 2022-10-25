@@ -2,7 +2,16 @@
 <img align="left" width="0" height="192px" hspace="10"/>
 
 # Playcode
-> Desktop client for PLAYCODE Online Javascript Editor
+> Desktop client for PLAYCODE Javascript Playground
+
+
+[Javascript Playground (Sandbox, Repl)](https://playcode.io)
+
+[Javascript Online Compiler (Editor)](https://playcode.io/javascript-online)
+
+[Typescript Playground](https://playcode.io/typescript-playground)
+
+[Online HTML Editor](https://playcode.io/online-html-editor)
 
 ## Development
 
