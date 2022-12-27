@@ -5,15 +5,18 @@ const fs = require('fs')
 // Electron
 const electron = require('electron')
 const {ipcMain} = require('electron')
+const logger = require("electron-log")
 
 const globalShortcut = electron.globalShortcut
 const menu = electron.Menu
 
 // App Info
 const app = electron.app
+
 const appTitle = app.getName()
-const appIsDev = require('electron-is-dev')
 const appConfig = require('./lib/config.js')
+
+const appIsDev = require('electron-is-dev')
 
 // Right Click/Context menu contents
 require('electron-context-menu')()
@@ -24,40 +27,112 @@ let mainWindow
 // If the application is quitting
 let isQuitting = false
 
+class AppUpdater {
+  constructor() {
+    const { autoUpdater } = require("electron-updater")
+
+    logger.transports.file.level = "info"
+    logger.transports.console.level = "info"
+    autoUpdater.logger = logger
+    autoUpdater.disableWebInstaller = true
+    autoUpdater.autoInstallOnAppQuit = true
+    autoUpdater.on('update-downloaded', async (info) => {
+      logger.info('update-downloaded', info)
+      const isConfirmed = await mainWindow.webContents.executeJavaScript(
+        `confirm('Update downloaded. Restart now?')`
+      )
+      if (isConfirmed) {
+        autoUpdater.quitAndInstall()
+      }
+    })
+    this.checkForUpdates()
+  }
+  async checkForUpdates() {
+    const { autoUpdater } = require("electron-updater")
+
+    await autoUpdater.checkForUpdatesAndNotify({
+      title: "Update downloaded. Restart now?",
+      body: "",
+    })
+  }
+}
+
 // Main Window
 function createMainWindow() {
 
   const lastWindowState = appConfig.get('lastWindowState')
+  
+  const remoteMain = require("@electron/remote/main")
+  remoteMain.initialize()
+  
   const appView = new electron.BrowserWindow({
     title: appTitle,
     x: lastWindowState.x,
     y: lastWindowState.y,
-    width: lastWindowState.width,
-    height: lastWindowState.height,
-    backgroundColor: '#213040',
+    width: lastWindowState.width || 1024,
+    height: lastWindowState.height || 800,
     // titleBarStyle: 'hidden',
-    transparent: true,
-    frame: false,
+    
+    backgroundColor: '#15222e',
+    transparent: process.platform !== 'linux',
+    frame: process.platform === 'linux',
+
+    // backgroundColor: '#2ed3ea',
+    // transparent: false,
+    // frame: true,
+    
     center: true,
     movable: true,
     resizable: true,
+    
     fullscreenable: true,
     // autoHideMenuBar: true,
 
     webPreferences: {
+      webSecurity: true,
       nodeIntegration: true,
-      enableRemoteModule: true,
+      // enableRemoteModule: true,
       contextIsolation: false,
       // nativeWindowOpen: true
     }
   })
+  
+  remoteMain.enable(appView.webContents)
+  
   if (appIsDev) {
+    // let internal_url = 'https://playcode.io/new';
+    //
+    // appView.webContents.on('did-start-loading', function(e) {
+    //   electron.protocol.interceptBufferProtocol('https', function(request, respond) {
+    //     electron.protocol.uninterceptProtocol('https');
+    //     console.log('intercepted', request.url);
+    //
+    //     if (request.url !== internal_url) {
+    //       console.warn('something went wrong');
+    //     } else {
+    //       let content = fs.readFileSync(__dirname + '/dist' + '/index.html');
+    //       // console.log(content.toString())
+    //       respond(content);
+    //     }
+    //   });
+    // });
+    //
+    //
+    // appView.loadURL(internal_url)
+    // appView.loadURL(`peer:///dist/index.html`)
+    // appView.loadURL('http://localhost:7000/new')
+    // appView.loadURL('http://192.168.1.130:7070/new')
+    // appView.loadURL('https://playcode.io/new')
+    // appView.loadURL(`file://${__dirname}/dist/index.html`)
     appView.loadURL('http://localhost:7070/new')
+    // appView.loadURL('https://playcode.io/new')
   } else {
     appView.loadURL('https://playcode.io/new')
   }
+  
+  new AppUpdater()
 
-  // When window is closed, hide window
+  // When window is closed, hide window on darwin and quit on other platforms
   appView.on('close', e => {
     if (!isQuitting) {
       e.preventDefault()
@@ -69,10 +144,10 @@ function createMainWindow() {
     }
   })
 
+  // Keep in until next release
   ipcMain.handle('minimize', (event, arg) => {
-    app.hide()
+    appView.minimize()
   })
-
   ipcMain.handle('close', (event, arg) => {
     if (!isQuitting) {
       if (process.platform === 'darwin') {
@@ -82,21 +157,27 @@ function createMainWindow() {
       }
     }
   })
-
   ipcMain.handle('maximize', (event, arg) => {
-    if (mainWindow) {
+    if (appView) {
       // mainWindow.maximize()
-      mainWindow.setFullScreen(!mainWindow.isFullScreen())
+      if (process.platform === 'darwin') {
+        appView.setFullScreen(!mainWindow.isFullScreen())
+      } else {
+        if (appView.isMaximized()) {
+          appView.unmaximize()
+        } else {
+          appView.maximize()
+        }
+      }
     }
   })
-
-
-  // Enter fullscreen Playcode fullscreen method execution
+  
+  // Enter fullscreen PlayCode fullscreen method execution
   appView.on('enter-full-screen', () => {
     appView.webContents.executeJavaScript('document.dispatchEvent( new Event("electronEnteredFullscreen") );')
   })
 
-  // Exit fullscreen Playcode fullscreen method execution
+  // Exit fullscreen PlayCode fullscreen method execution
   appView.on('leave-full-screen', () => {
     appView.webContents.executeJavaScript('document.dispatchEvent( new Event("electronLeavedFullscreen") );')
   })
@@ -104,9 +185,32 @@ function createMainWindow() {
   return appView
 }
 
-app.on('ready', () => {
-  const version = app.getVersion()
+function serveStatic () {
+  electron.protocol.registerFileProtocol(
+    'peer',
+    function(req,callback) {
+      // console.log(req)
+      // var file_path = __dirname+'/'+req.url.substring('peer://'.length)
+      // console.log(file_path)
+      // cb({path: file_path})
+      // cb(file_path)
+  
+      console.log('URL', req.url)
+      console.log(path.normalize(`${__dirname}/${req.url.substring('peer://'.length)}`))
+  
+      if (req.url.startsWith('peer://')) {
+        callback({ path:  path.normalize(`${__dirname}/${req.url.substring('peer://'.length)}`) });
+      } else {
+        callback(req);
+      }
+    })
+}
 
+app.on('ready', () => {
+  // serveStatic()
+  
+  const version = app.getVersion()
+  
   mainWindow = createMainWindow()
 
   // Setting App menu
@@ -118,8 +222,7 @@ app.on('ready', () => {
   }
 
   const appPage = mainWindow.webContents
-
-
+  
   appPage.on('dom-ready', () => {
 
     // console.log('Updated')
@@ -129,11 +232,6 @@ app.on('ready', () => {
 
     // Global Style Additions
     appPage.insertCSS(fs.readFileSync(path.join(__dirname, 'app.css'), 'utf8'))
-
-    // MacOS ONLY style fixes
-    if (process.platform === 'darwin') {
-      appPage.insertCSS('')
-    }
 
     // Global Code Additions
     appPage.executeJavaScript(fs.readFileSync(path.join(__dirname, 'renderer.js'), 'utf8'))
@@ -171,12 +269,14 @@ app.on('ready', () => {
 
     })
 
-    // Shortcut to reload the page.
-    // globalShortcut.register('CmdOrCtrl+R', (item, focusedWindow) => {
-    //     if (focusedWindow) {
-    //         mainWindow.webContents.reload()
-    //     }
-    // })
+    if (appIsDev) {
+      // Shortcut to reload the page.
+      globalShortcut.register('CmdOrCtrl+R', (item, focusedWindow) => {
+          if (focusedWindow) {
+              mainWindow.webContents.reload()
+          }
+      })
+    }
     // Shortcut to go back a page.
     // globalShortcut.register('Command+Left', ( item, focusedWindow ) => {
     //   if ( focusedWindow && focusedWindow.webContents.canGoBack() ) {

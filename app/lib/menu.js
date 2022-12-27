@@ -98,7 +98,7 @@ const templateWin = [{
     submenu: [{
         label: 'About ' + appName,
         click() {
-            require('electron').shell.openExternal('https://github.com/Meadowcottage/Playcode/releases/tag/' + appVersion)
+            require('electron').shell.openExternal('https://github.com/playcode/playcode-desktop/releases/tag/' + appVersion)
         }
     }, {
         label: 'Version ' + appVersion,
@@ -112,12 +112,14 @@ const templateWin = [{
         }
     }, {
         type: 'separator'
-    }, {
-        label: 'Changelog',
-        click() {
-            require('electron').shell.openExternal('https://github.com/Meadowcottage/Playcode/releases/tag/' + appVersion)
-        }
-    }]
+    },
+    //     {
+    //     label: 'Changelog',
+    //     click() {
+    //         require('electron').shell.openExternal('https://github.com/Meadowcottage/Playcode/releases/tag/' + appVersion)
+    //     }
+    // }
+    ]
 }]
 
 const templateOSX = [{

@@ -1,10 +1,12 @@
 const Config = require('electron-config')
 
-module.exports = new Config({
+const config = new Config({
     defaults: {
         lastWindowState: {
-            width: 1280,
-            height: 322
+            width: 1024,
+            height: 800
         }
     }
 })
+
+module.exports = config

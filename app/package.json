@@ -1,19 +1,23 @@
 {
     "name": "playcode",
     "productName": "PLAYCODE",
-    "version": "2022.5.22",
-    "description": "Desktop client for Playcode Online Javascript Editor",
+    "version": "2022.12.27",
+    "description": "JavaScript Playground",
     "private": false,
     "main": "main.js",
     "author": {
-        "name": "playcode"
+        "name": "playcode",
+        "email": "ruslan@playcode.io"
     },
     "license": "GNU General Public License",
     "homepage": "https://github.com/playcode/playcode-desktop/",
     "keywords": [
         "Online javascript editor",
+        "JavaScript Playground",
+        "JavaScript Desktop",
+        "JavaScript Sandbox",
         "Electron",
-        "Playcode",
+        "PlayCode",
         "Desktop Client",
         "Developer Tools"
     ],
@@ -25,8 +29,11 @@
         "url": "https://github.com/playcode/playcode-desktop.git"
     },
     "dependencies": {
-        "electron-config": "^0.2.1",
-        "electron-context-menu": "^0.6.0",
-        "electron-is-dev": "^0.1.2"
+        "@electron/remote": "^2.0.9",
+        "electron-config": "^2.0.0",
+        "electron-context-menu": "^3.6.1",
+        "electron-is-dev": "^2.0.0",
+        "electron-log": "^4.4.8",
+        "electron-updater": "^5.3.0"
     }
 }
