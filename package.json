@@ -7,8 +7,8 @@
     "compile": "rimraf app/out",
     "pack": "npm run compile && electron-builder --dir",
     "dist:all": "npm run compile && electron-builder -mwl",
-    "dist:w": "npm run compile && electron-builder -mwl",
-    "release": "npm run compile && op run --env-file=\"./.env.local\" -- electron-builder -w"
+    "dist:w": "npm run compile && electron-builder -w",
+    "release": "npm run compile && op run --env-file=\"./.env.local\" -- electron-builder -mwl"
   },
   "build": {
     "appId": "xyz.playcode.PLAYCODE",
