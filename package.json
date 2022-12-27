@@ -7,7 +7,7 @@
     "compile": "rimraf app/out",
     "pack": "npm run compile && electron-builder --dir",
     "dist:all": "npm run compile && electron-builder -mwl",
-    "dist:w": "npm run compile && electron-builder -l",
+    "dist:w": "npm run compile && electron-builder -mwl",
     "release": "npm run compile && op run --env-file=\"./.env.local\" -- electron-builder -w"
   },
   "build": {
