@@ -7,7 +7,7 @@
     "compile": "rimraf app/out",
     "pack": "npm run compile && electron-builder --dir",
     "dist:all": "npm run compile && electron-builder -mwl",
-    "dist:w": "npm run compile && electron-builder -w",
+    "dist:w": "npm run compile && electron-builder -m",
     "release": "npm run compile && op run --env-file=\"./.env.local\" -- electron-builder -mwl"
   },
   "build": {
@@ -18,10 +18,7 @@
       "darkModeSupport": true,
       "target": {
         "target": "default",
-        "arch": [
-          "x64",
-          "arm64"
-        ]
+        "arch": "universal"
       }
     },
     "dmg": {

@@ -143,34 +143,6 @@ function createMainWindow() {
       }
     }
   })
-
-  // Keep in until next release
-  ipcMain.handle('minimize', (event, arg) => {
-    appView.minimize()
-  })
-  ipcMain.handle('close', (event, arg) => {
-    if (!isQuitting) {
-      if (process.platform === 'darwin') {
-        app.hide()
-      } else {
-        app.quit()
-      }
-    }
-  })
-  ipcMain.handle('maximize', (event, arg) => {
-    if (appView) {
-      // mainWindow.maximize()
-      if (process.platform === 'darwin') {
-        appView.setFullScreen(!mainWindow.isFullScreen())
-      } else {
-        if (appView.isMaximized()) {
-          appView.unmaximize()
-        } else {
-          appView.maximize()
-        }
-      }
-    }
-  })
   
   // Enter fullscreen PlayCode fullscreen method execution
   appView.on('enter-full-screen', () => {
