@@ -7,11 +7,9 @@
 
 [Javascript Playground (Sandbox, Repl)](https://playcode.io)
 
-[Javascript Online Compiler (Editor)](https://playcode.io/javascript-online)
+[Javascript Compiler Online](https://playcode.io/javascript-compiler-online)
 
 [Typescript Playground](https://playcode.io/typescript-playground)
-
-[Online HTML Editor](https://playcode.io/online-html-editor)
 
 ## Development
 
