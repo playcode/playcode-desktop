@@ -2,12 +2,12 @@
 <img align="left" width="0" height="192px" hspace="10"/>
 
 # Playcode
-> Desktop client for PLAYCODE Javascript Playground
+> Desktop client for PlayCode Javascript Playground
 
 
 [Javascript Playground (Sandbox, Repl)](https://playcode.io)
 
-[Javascript Compiler Online](https://playcode.io/javascript-compiler-online)
+[Javascript Compiler](https://playcode.io/javascript-compiler)
 
 [Typescript Playground](https://playcode.io/typescript-playground)
 
