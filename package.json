@@ -1,0 +1,85 @@
+{
+  "private": true,
+  "scripts": {
+    "postinstall": "install-app-deps",
+    "start": "npm run compile && electron ./app",
+    "test": "xo && mocha",
+    "compile": "rimraf app/out",
+    "pack": "npm run compile && electron-builder --dir",
+    "dist:all": "npm run compile && electron-builder -mwl",
+    "dist:m": "npm run compile && electron-builder -m",
+    "dist:w": "npm run compile && electron-builder -w",
+    "release": "npm run compile && op run --env-file=\"./.env.local\" -- electron-builder -mwl"
+  },
+  "build": {
+    "appId": "xyz.playcode.PLAYCODE",
+    "productName": "PLAYCODE",
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "darkModeSupport": true,
+      "target": {
+        "target": "default",
+        "arch": "universal"
+      }
+    },
+    "dmg": {
+      "artifactName": "${productName}-${version}-${arch}.${ext}",
+      "contents": [
+        {
+          "x": 410,
+          "y": 180,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 180,
+          "type": "file"
+        }
+      ]
+    },
+    "win": {
+      "target": "nsis",
+      "publish": [
+        {
+          "provider": "github",
+          "owner": "playcode",
+          "repo": "playcode-desktop"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ]
+    }
+  },
+  "devDependencies": {
+    "electron": "^24.4.1",
+    "electron-builder": "^24.4.0",
+    "mocha": "^3.5.3",
+    "rimraf": "^3.0.2",
+    "xo": "^0.53.1"
+  },
+  "xo": {
+    "envs": [
+      "node",
+      "mocha"
+    ],
+    "esnext": true,
+    "semicolon": false,
+    "space": 4
+  },
+  "packageIgnore": [
+    "LICENSE.md",
+    "README.md",
+    ".DS_Store",
+    ".travis.yml",
+    "appveyor.yml",
+    "test",
+    "dist",
+    "build/Screenshot.png"
+  ],
+  "dependencies": {
+  }
+}
