@@ -1,19 +1,48 @@
 {
+  "name": "playcode",
+  "productName": "PLAYCODE",
+  "version": "2024.9.17",
+  "description": "JavaScript Playground",
+  "license": "GNU General Public License",
+  "homepage": "https://github.com/playcode/playcode-desktop/",
+  "keywords": [
+    "Online javascript editor",
+    "JavaScript Playground",
+    "JavaScript Desktop",
+    "JavaScript Sandbox",
+    "Electron",
+    "PlayCode",
+    "Desktop Client",
+    "Developer Tools"
+  ],
+  "bugs": {
+    "url": "https://github.com/playcode/playcode-desktop/issues/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/playcode/playcode-desktop.git"
+  },
+  "author": {
+    "name": "playcode"
+  },
   "private": true,
+  "type": "module",
+  "main": "./packages/app/dist/main/main.js",
   "scripts": {
     "postinstall": "install-app-deps",
-    "start": "npm run compile && electron ./app",
-    "test": "xo && mocha",
-    "compile": "rimraf app/out",
-    "pack": "npm run compile && electron-builder --dir",
-    "dist:all": "npm run compile && electron-builder -mwl",
-    "dist:m": "npm run compile && electron-builder -m",
-    "dist:w": "npm run compile && electron-builder -w",
-    "release": "npm run compile && op run --env-file=\"./.env.local\" -- electron-builder -mwl"
+    "start": "yarn compile && electron ./packages/app/dist/main/main.js",
+    "compile": "rimraf packages/app/dist && tsc -p packages/app",
+    "pack": "yarn compile && electron-builder --dir",
+    "dist:all": "yarn compile && electron-builder -mwl",
+    "dist:w": "yarn compile && electron-builder -m",
+    "release": "yarn compile && op run --env-file=\"./.env.local\" -- electron-builder -mwl"
   },
   "build": {
     "appId": "xyz.playcode.PLAYCODE",
     "productName": "PLAYCODE",
+    "files": [
+      "packages/**/*"
+    ],
     "mac": {
       "category": "public.app-category.developer-tools",
       "darkModeSupport": true,
@@ -55,11 +84,12 @@
     }
   },
   "devDependencies": {
-    "electron": "^24.4.1",
-    "electron-builder": "^24.4.0",
-    "mocha": "^3.5.3",
-    "rimraf": "^3.0.2",
-    "xo": "^0.53.1"
+    "electron": "^32.1.0",
+    "electron-builder": "^25.0.5",
+    "mocha": "10.7.3",
+    "rimraf": "^6.0.1",
+    "spectron": "^19.0.0",
+    "xo": "^0.59.3"
   },
   "xo": {
     "envs": [
@@ -68,7 +98,7 @@
     ],
     "esnext": true,
     "semicolon": false,
-    "space": 4
+    "space": 2
   },
   "packageIgnore": [
     "LICENSE.md",

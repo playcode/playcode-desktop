@@ -1,0 +1,25 @@
+{
+  "importOrder": [
+    "^@electron/(.*)$",
+    "^electron(.*)$",
+    "<THIRD_PARTY_MODULES>",
+    "^@/(.*)$",
+    "^\\./entities/(.*)$",
+    "^\\./dto/(.*)$",
+    "^[./]"
+  ],
+  "singleQuote": true,
+  "semi": false,
+  "printWidth": 125,
+  "trailingComma": "all",
+  "importOrderGroupNamespaceSpecifiers": true,
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "importOrderParserPlugins": [
+    "typescript",
+    "decorators-legacy"
+  ],
+  "plugins": [
+    "@trivago/prettier-plugin-sort-imports"
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "env": {
+    "node": true,
+    "jest": true
+  },
+  "extends": [
+    "airbnb-base",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": [
+    "jest",
+    "security",
+    "@typescript-eslint",
+    "import"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "project": "./tsconfig.json",
+    "tsconfigRootDir": "./"
+  },
+  "rules": {
+    "comma-dangle": [
+      "warn",
+      "always-multiline"
+    ],
+    "semi": [
+      "warn",
+      "never"
+    ],
+    "no-console": "off",
+    "func-names": "off",
+    "max-classes-per-file": "off",
+    "no-use-before-define": "off",
+    "lines-between-class-members": "off",
+    "no-underscore-dangle": "off",
+    "consistent-return": "off",
+    "jest/expect-expect": "off",
+    "no-empty-function": "off",
+    "no-useless-constructor": "off",
+    "class-methods-use-this": "off",
+    "spaced-comment": "warn",
+    "prefer-const": "warn",
+    "no-var": "warn",
+    "camelcase": "off",
+    "prefer-destructuring": "warn",
+    "no-param-reassign": "warn",
+    "import/no-named-as-default": "warn",
+    "import/extensions": "off",
+    "import/no-extraneous-dependencies": "warn",
+    "import/prefer-default-export": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-this-alias": "off",
+    "@typescript-eslint/require-await": "warn",
+    "@typescript-eslint/no-unsafe-return": "off",
+    "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/no-var-requires": "warn",
+    "@typescript-eslint/no-unsafe-call": "off",
+    "@typescript-eslint/no-misused-promises": "warn",
+    "@typescript-eslint/no-unsafe-argument": "off",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "security/detect-object-injection": "off",
+    "no-restricted-syntax": [
+      "error",
+      "LabeledStatement",
+      "WithStatement"
+    ],
+    "no-void": [
+      "error",
+      {
+        "allowAsStatement": true
+      }
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    },
+    "import/order": "off",
+    "import/newline-after-import": [
+      "warn",
+      {
+        "count": 1
+      }
+    ]
+  }
+}
