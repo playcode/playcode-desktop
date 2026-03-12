@@ -1,11 +1,12 @@
 <img src="https://github.com/playcode/playcode-desktop/blob/master/build/icon.png?raw=true" align="left" width="192px" height="192px"/>
 <img align="left" width="0" height="192px" hspace="10"/>
+[DEPRECATED] download latest version from our website playcode.io.
 
 # Playcode
-> Desktop client for PLAYCODE Javascript Playground
+> Desktop client for PLAYCODE AI Website Builder - Describe what you need. AI builds it. Publish in one click.
 
 
-[Javascript Playground (Sandbox, Repl)](https://playcode.io)
+[AI Website Builder - Describe what you need. AI builds it. Publish in one click.](https://playcode.io)
 
 [Javascript Online Compiler (Editor)](https://playcode.io/javascript-online)
 
