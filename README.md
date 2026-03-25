@@ -6,7 +6,7 @@
 > Desktop client for PLAYCODE AI Website Builder - Describe what you need. AI builds it. Publish in one click.
 
 
-[AI Website Builder - Describe what you need. AI builds it. Publish in one click.](https://playcode.io)
+[AI Website Builder - Describe what you need. AI builds it. Publish in one click.](https://playcode.io/ai-website-builder)
 
 [Javascript Online Compiler (Editor)](https://playcode.io/javascript-online)
 
