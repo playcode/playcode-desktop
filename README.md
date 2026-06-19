@@ -1,18 +1,20 @@
-<img src="https://github.com/playcode/playcode-desktop/blob/master/build/icon.png?raw=true" align="left" width="192px" height="192px"/>
-<img align="left" width="0" height="192px" hspace="10"/>
-[DEPRECATED] download latest version from our website playcode.io.
-
 # Playcode
-> Desktop client for PLAYCODE AI Website Builder - Describe what you need. AI builds it. Publish in one click.
 
+This repository contains the legacy Playcode desktop client.
 
-[AI Website Builder - Describe what you need. AI builds it. Publish in one click.](https://playcode.io/ai-website-builder)
+The current Playcode product is an AI website builder and AI app builder that creates,
+hosts, and updates live websites and web apps from plain-English prompts.
 
-[Javascript Online Compiler (Editor)](https://playcode.io/javascript-online)
+## Current product
 
-[Typescript Playground](https://playcode.io/typescript-playground)
+- [AI Website Builder](https://playcode.io/ai-website-builder)
+- [Playcode homepage](https://playcode.io)
+- [Watch the demo](https://www.youtube.com/watch?v=aK7E_XtBynA)
 
-[Online HTML Editor](https://playcode.io/online-html-editor)
+## Legacy desktop client
+
+The desktop client is deprecated. Use the browser-based Playcode product linked above
+for current AI website builder, AI app builder, publishing, hosting, and cloud features.
 
 ## Development
 
